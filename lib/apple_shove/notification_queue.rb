@@ -4,22 +4,21 @@ require 'redis'
 module AppleShove
   class NotificationQueue
     
-    def initialize(key, redis = Redis.new)
-      @redis = redis
+    def initialize(key)
       @key = key
     end
     
     def add(notification)
-      @redis.rpush @key, notification.to_json
+      AppleShove.redis { |redis| redis.rpush @key, notification.to_json }
     end
     
     def get
-      element = @redis.lpop @key
+      element = AppleShove.redis { |redis| redis.lpop @key }
       element ? Notification.parse(element) : nil
     end
 
     def size
-      @redis.llen @key
+      AppleShove.redis { |redis| redis.llen @key }
     end   
 
   end

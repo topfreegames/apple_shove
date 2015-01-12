@@ -9,7 +9,7 @@ describe AppleShove::NotificationQueue do
   end
 
   it 'should initialize without error' do
-    @q.should_not eql(nil)
+    expect(@q).to_not eql(nil)
   end
 
   it 'should add notifications to the queue' do
@@ -37,7 +37,7 @@ describe AppleShove::NotificationQueue do
   it 'should count 0 notifications when the queue is empty' do
     expect_any_instance_of(Redis).to receive(:llen).and_return(0)
     
-    @q.size.should eql(0)
+    expect(@q.size).to eql(0)
   end
 
 end

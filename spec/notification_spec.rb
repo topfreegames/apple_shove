@@ -10,19 +10,16 @@ describe AppleShove::Notification do
 
   it "converts to and from json" do
     json = @n.to_json
-
-    json.should be_an_instance_of(String)
-
+    expect(json).to be_an_instance_of(String)
     n2 = AppleShove::Notification.parse(json)
-
-    @n.to_json.should == n2.to_json
+    expect(@n.to_json).to eq(n2.to_json)
   end
 
   it "creates a binary message for apns" do
     m = @n.binary_message
 
-    m.should be_an_instance_of(String)
-    m.length.should > 0
+    expect(m).to be_an_instance_of(String)
+    expect(m.length).to be > 0
   end
 
 end

@@ -9,7 +9,7 @@ module AppleShove
       @max_connections = opts[:max_apns_connections].to_i
 
       @connections  = {}
-      @queue        = NotificationQueue.new(CONFIG[:redis_key])
+      @queue        = NotificationQueue.new(AppleShove.options.fetch(:redis_key))
     end
 
     def start
