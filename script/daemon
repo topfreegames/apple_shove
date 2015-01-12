@@ -13,7 +13,7 @@ ARGV.each do |arg|
   end
 end
 
-options = { 
+options = {
   stop_proc:  Proc.new { puts "Stopping daemon" },
   dir_mode:   :script
 }

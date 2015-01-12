@@ -1,10 +1,10 @@
 module AppleShove
   class Notification
 
-    attr_accessor :p12, :sandbox, :device_token, :payload, :expiration_date, :priority
+    attr_accessor :p12, :password, :sandbox, :device_token, :payload, :expiration_date, :priority
     
     def initialize(attributes = {})
-      [:p12, :device_token, :payload].each do |req_attr|
+      [:p12, :device_token, :payload, :password].each do |req_attr|
         raise "#{req_attr} must be specified" unless attributes.keys.collect { |k| k.to_s }.include? req_attr.to_s
       end
 

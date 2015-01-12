@@ -8,14 +8,14 @@ module AppleShove
       attr_accessor :pending_notifications
       attr_reader :name
 
-      def initialize(p12, sandbox)
-        @name = self.class.generate_name(p12, sandbox)
+      def initialize(p12_string:, password:, sandbox: false)
+        @name = self.class.generate_name(p12_string, sandbox)
         @last_message           = nil
         @pending_notifications  = 0
 
         host = "gateway.#{sandbox ? 'sandbox.' : ''}push.apple.com"
 
-        super host, 2195, p12
+        super host: host, port: 2195, p12_string: p12_string, password: password
       end
 
       def self.generate_name(p12, sandbox)
@@ -33,7 +33,7 @@ module AppleShove
         message = notification.binary_message
 
         begin
-          if @last_used && Time.now - safe_last_used > CONFIG[:reconnect_timer] * 60
+          if @last_used && Time.now - safe_last_used > AppleShove.options.fetch(:reconnect_timer) * 60
             Logger.info("refreshing connection", self, notification)
             reconnect
           end

@@ -2,7 +2,7 @@ require 'apple_shove/apns/connection'
 Dir[File.join(File.dirname(__FILE__), 'apple_shove', '**', '*.rb')].each {|file| require file }
 
 module AppleShove
-  NAME = 'Sidekiq'
+  NAME = 'AppleShove'
   DEFAULTS = {
     concurrency: 25,
     reconnect_timer: 5,
@@ -41,8 +41,8 @@ module AppleShove
     true
   end
 
-  def self.feedback_tokens(p12, sandbox = false)
-    conn = APNS::FeedbackConnection.new p12, sandbox
+  def self.feedback_tokens(p12_string:, password:, sandbox: false)
+    conn = APNS::FeedbackConnection.new(p12_string: p12_string, password: password, sandbox: sandbox)
     conn.device_tokens
   end
 
@@ -53,8 +53,8 @@ module AppleShove
   end
 
   # raises an exception if the p12 string is invalid
-  def self.try_p12(p12)
-    OpenSSLHelper.pkcs12_from_pem(p12)
+  def self.try_p12(p12_pem: , password:)
+    OpenSSLHelper.pkcs12_from_pem(p12_pem: p12_pem, password: password)
     true
   end
 end

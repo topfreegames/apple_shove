@@ -2,10 +2,9 @@ module AppleShove
   module APNS
     class FeedbackConnection < Connection
 
-      def initialize(p12, sandbox)
+      def initialize(p12_string:, password:, sandbox: false)
         host = "feedback.#{sandbox ? 'sandbox.' : ''}push.apple.com"
-
-        super host, 2196, p12
+        super host: host, port: 2195, p12_string: p12_string, password: password
       end
 
       def device_tokens

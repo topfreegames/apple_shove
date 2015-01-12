@@ -6,11 +6,11 @@ module AppleShove
 
       attr_reader :last_used
 
-      def initialize(host, port, p12_string)
+      def initialize(host:, port:, p12_string:, password: )
         @host       = host
         @port       = port
         @p12_string = p12_string
-
+        @password   = password
         @p12        = nil
       end
 
@@ -42,7 +42,7 @@ module AppleShove
       private
 
       def connect
-        @p12          ||= OpenSSLHelper.pkcs12_from_pem(@p12_string)
+        @p12          ||= OpenSSLHelper.pkcs12_from_pem(p12_pem: @p12_string, password: @password)
         context         = ::OpenSSL::SSL::SSLContext.new
         context.cert    = @p12.certificate
         context.key     = @p12.key

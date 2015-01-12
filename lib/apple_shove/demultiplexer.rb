@@ -37,7 +37,7 @@ module AppleShove
       unless connection
         retire_oldest_connection if @connections.count >= @max_connections
 
-        connection        = APNS::NotifyConnection.new notification.p12, notification.sandbox
+        connection        = APNS::NotifyConnection.new p12_string: notification.p12, password: notification.password, sandbox: notification.sandbox
         @connections[key] = connection
         Logger.info "created connection to APNS (#{@connections.count} total)", connection
       end
