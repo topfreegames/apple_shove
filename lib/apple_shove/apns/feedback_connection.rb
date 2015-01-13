@@ -8,13 +8,11 @@ module AppleShove
       end
 
       def device_tokens
-        tokens = []
+        return to_enum(__callee__) unless block_given?
         while response = socket.read(38)
           timestamp, token_length, device_token = response.unpack('N1n1H*')
-          tokens << device_token
+          yield device_token
         end
-
-        tokens
       end
 
     end
